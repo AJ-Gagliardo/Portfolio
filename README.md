@@ -1,5 +1,6 @@
 - 👋 Hi, I’m @AJ-Gagliardo (Antonio Jose Gagliardo Espinoza)
 - 👀 I’m interested in becoming a Data Analyst
+- You can check my portfolio above
 - 🌱 I’m currently learning Sql, R and Python
 - 💞️ I’m looking to collaborate on Data Analysis
 - 📫 How to reach me ajgagliardo92@gmail.com
