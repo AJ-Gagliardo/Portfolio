@@ -48,7 +48,10 @@ where continent is null -- above I used not null to avoid continents, now I want
 AND location is not Null and location not like '%income%' 
 and location not like 'international' -- not like to avoid locations that are not continents (with the exception of world)
 Group by location
-order by TotalDeathCount d
+order by TotalDeathCount desc
+
+
+
 
 
 
