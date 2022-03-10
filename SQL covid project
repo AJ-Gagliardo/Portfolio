@@ -13,13 +13,13 @@ Where location like '%Canada%'
 order by location,date
 
 
--- This query will show countries with highest infection rate compared to population
+-- This query will show countries with highest infection rate (at any point in time) compared to population
 
 Select location, population, max(total_cases) AS HighestInfectionCount,  
-	MAX((total_cases/population))*100 as PercentagePopulationInfected
+	MAX((total_cases/population))*100 as MaxPercentagePopulationInfected
 from PortfolioProject.dbo.CovidDeaths
 Group by Location, population
-order by PercentagePopulationInfected desc
+order by MaxPercentagePopulationInfected desc
 
 //*
 --In the case above, I noticed that there where many null values and also some countries had a percentage of infection higher than 100%
@@ -30,6 +30,25 @@ order by PercentagePopulationInfected desc
 
 
 
+-- highest death count
+
+select location, max(cast(Total_deaths as int)) as TotalDeathCount
+from PortfolioProject.dbo.CovidDeaths
+where continent is not null --this get rid of continents and null data
+Group by Location
+order by TotalDeathCount desc
+
+--Result above was compared searching in google and the numbers up to the date are really close (i.e. USA 960 k vs 962k, probably becuas eof the few days on difference)
+
+-- Doing by continent
+
+select location, max(cast(Total_deaths as int)) as TotalDeathCount
+from PortfolioProject.dbo.CovidDeaths
+where continent is null -- above I used not null to avoid continents, now I want null to get continents
+AND location is not Null and location not like '%income%' 
+and location not like 'international' -- not like to avoid locations that are not continents (with the exception of world)
+Group by location
+order by TotalDeathCount d
 
 
 
