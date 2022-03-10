@@ -50,6 +50,50 @@ and location not like 'international' -- not like to avoid locations that are no
 Group by location
 order by TotalDeathCount desc
 
+-- Global numbers
+
+select SUM(new_cases) as Total_Cases_Worldwide, 
+	SUM(cast(new_deaths as int)) as Total_deaths_worldwide,
+	Concat(Round(Sum(cast(new_deaths as int))/sum(new_cases)*100,2),'%') as DeathPercentage
+from PortfolioProject.dbo.CovidDeaths
+Where continent is not null
+order by 1,2
+
+
+-- New vaccinations per day ordered by country
+
+select deaths.continent, deaths.location, deaths.date, deaths.population, vac.new_vaccinations
+From PortfolioProject.dbo.CovidDeaths as deaths
+Join PortfolioProject.dbo.CovidVaccinations as vac
+	On deaths.location = vac.location
+	and deaths.date = vac.date
+	where deaths.continent is not null
+	order by 2,3
+
+
+-- New vaccinations per day ordered by country
+
+with PopulationvsVac (continent, location, date, population, new_vaccinations, PeopleVaccinated)
+as
+(
+select deaths.continent, deaths.location, deaths.date, deaths.population, vac.new_vaccinations,
+	Sum(convert(float, vac.new_vaccinations)) over(partition by deaths.location 
+	order by deaths.location, deaths.date) as PeopleVaccinated
+	
+
+From PortfolioProject.dbo.CovidDeaths deaths
+Join PortfolioProject.dbo.CovidVaccinations vac
+	On deaths.location = vac.location
+	and deaths.date = vac.date
+	where deaths.continent is not null
+	and deaths.location is not null
+	and deaths.date is not null 
+	and vac.new_vaccinations is not null
+
+
+	)
+select *, (PeopleVaccinated/population)*100 as 'PeopleVaccinated / population'
+From PopulationvsVac
 
 
 
