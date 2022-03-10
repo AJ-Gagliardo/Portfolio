@@ -1,0 +1,39 @@
+//* SQL project - Covid 19 data exploration
+
+Tools used: SQL, google sheets
+Skills used: Select, Where, Joins, CTE's, Temp Tables, Windows Functions, Aggregate Functions, Creating Views, Converting Data Types
+
+*//
+
+--In this section I query to look at total cases vs Total deaths in Canada, and orderer the information
+
+Select location, date, total_cases,total_deaths, (total_deaths/total_cases)*100) AS DeathPercentageFromCovid
+From PortfolioProject.dbo.CovidDeaths
+Where location like '%Canada%'
+order by location,date
+
+
+-- This query will show countries with highest infection rate compared to population
+
+Select location, population, max(total_cases) AS HighestInfectionCount,  
+	MAX((total_cases/population))*100 as PercentagePopulationInfected
+from PortfolioProject.dbo.CovidDeaths
+Group by Location, population
+order by PercentagePopulationInfected desc
+
+//*
+--In the case above, I noticed that there where many null values and also some countries had a percentage of infection higher than 100%
+--This meant that I had to make some data cleaning, so I filtered in Excel the few countries that had this problem (Venezuela, Poland, Moroco, Saudi Arabia, etc.)
+--I noticed some dirty data, in which population was extremely short (i.e. Venezuela had 480 population in a few cells) making the Max (total_cases/population) 
+--extremely high, so I just filtered and replaced the dirty data from these countries 
+*//
+
+
+
+
+
+
+
+
+
+
