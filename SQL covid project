@@ -97,6 +97,34 @@ From PopulationvsVac
 
 
 
+-- Create a Temporary table
+
+Create table #PercentPopulationVaccinated
+
+(
+Continent nvarchar(255),
+Location nvarchar(255),
+Date datetime, 
+Population numeric,
+New_vaccinations numeric,
+PeopleVaccinated numeric
+)
+Insert into #PercentPopulationVaccinated
+
+select deaths.continent, deaths.location, deaths.date, deaths.population, vac.new_vaccinations,
+	Sum(convert(float, vac.new_vaccinations)) over(partition by deaths.location 
+	order by deaths.location, deaths.date) as PeopleVaccinated
+	
+
+From PortfolioProject.dbo.CovidDeaths deaths
+Join PortfolioProject.dbo.CovidVaccinations vac
+	On deaths.location = vac.location
+	and deaths.date = vac.date
+	where deaths.continent is not null
+
+
+	select *, (PeopleVaccinated/population)*100 as 'PeopleVaccinated / population'
+From #PercentPopulationVaccinated
 
 
 
