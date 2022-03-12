@@ -99,6 +99,7 @@ From PopulationvsVac
 
 -- Create a Temporary table
 
+DROP Table if exists #PercentPopulationVaccinated  -- deletes the table, needed to rerun the code 
 Create table #PercentPopulationVaccinated
 
 (
