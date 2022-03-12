@@ -1,4 +1,6 @@
-//* SQL project - Covid 19 data exploration
+//* 
+
+SQL project - Covid 19 data exploration
 
 Tools used: SQL, google sheets
 Skills used: Select, Where, Joins, CTE's, Temp Tables, Windows Functions, Aggregate Functions, Creating Views, Converting Data Types
